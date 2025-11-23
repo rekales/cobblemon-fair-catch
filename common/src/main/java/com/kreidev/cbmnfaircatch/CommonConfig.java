@@ -5,6 +5,4 @@ public class CommonConfig {
     // TODO: use this values for defaults instead of setting individually per platform
     // TODO: organize configs on both platforms
 
-
-
 }

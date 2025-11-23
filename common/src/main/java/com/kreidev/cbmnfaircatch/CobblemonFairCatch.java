@@ -5,7 +5,6 @@ import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
-import com.kreidev.cbmnfaircatch.network.FieldLabNetworkManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,8 +20,6 @@ public class CobblemonFairCatch {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static void init() {
-        FieldLabNetworkManager.registerPackets();
-
         CobblemonEvents.THROWN_POKEBALL_HIT.subscribe(event -> {
             if (event.getPokeBall().getOwner() instanceof ServerPlayer player && event.getPokemon().getPokemon().isWild()) {
                 PlayerPartyStore party = PlayerExtensionsKt.party(player);
@@ -37,10 +34,6 @@ public class CobblemonFairCatch {
                 }
             }
         });
-    }
-
-    public static void initClient() {
-
     }
 
     public static ResourceLocation resLoc(String path, Object... args) {
