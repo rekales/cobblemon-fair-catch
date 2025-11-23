@@ -1,0 +1,24 @@
+package com.kreidev.cbmnfaircatch.neoforge;
+
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+
+public class CommonConfigNeoForge {
+
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
+    static final ModConfigSpec SPEC = BUILDER.build();
+
+    private static void loadValues() {
+    }
+
+    @SuppressWarnings("unused")
+    static void onLoad(final ModConfigEvent.Loading event) {
+        loadValues();
+    }
+
+    @SuppressWarnings("unused")
+    static void onReload(final ModConfigEvent.Loading event) {
+        loadValues();
+    }
+}
