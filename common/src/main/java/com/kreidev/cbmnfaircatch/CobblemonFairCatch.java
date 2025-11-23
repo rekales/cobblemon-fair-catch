@@ -1,11 +1,16 @@
 package com.kreidev.cbmnfaircatch;
 
-import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.events.CobblemonEvents;
+import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
+import com.cobblemon.mod.common.api.text.TextKt;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfaircatch.network.FieldLabNetworkManager;
 import com.mojang.logging.LogUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
 
 
@@ -19,7 +24,18 @@ public class CobblemonFairCatch {
         FieldLabNetworkManager.registerPackets();
 
         CobblemonEvents.THROWN_POKEBALL_HIT.subscribe(event -> {
-            LOGGER.warn("Tried");
+            if (event.getPokeBall().getOwner() instanceof ServerPlayer player && event.getPokemon().getPokemon().isWild()) {
+                PlayerPartyStore party = PlayerExtensionsKt.party(player);
+                int highestLevel = 0;
+                for (Pokemon pokemon : party) {
+                    highestLevel = Math.max(pokemon.getLevel(), highestLevel);
+                }
+
+                if (event.getPokemon().getPokemon().getLevel() > highestLevel) {
+                    player.sendSystemMessage(TextKt.red(Component.translatable(MOD_ID+".level_too_high")), true);
+                    event.cancel();
+                }
+            }
         });
     }
 
