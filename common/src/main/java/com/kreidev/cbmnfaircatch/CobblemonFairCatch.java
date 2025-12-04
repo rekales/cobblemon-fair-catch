@@ -21,7 +21,10 @@ public class CobblemonFairCatch {
 
     public static void init() {
         CobblemonEvents.THROWN_POKEBALL_HIT.subscribe(event -> {
-            if (event.getPokeBall().getOwner() instanceof ServerPlayer player && event.getPokemon().getPokemon().isWild()) {
+            if (event.getPokeBall().getOwner() instanceof ServerPlayer player
+                    && event.getPokemon().getPokemon().isWild()
+                    && !PlayerExtensionsKt.isInBattle(player)
+            ) {
                 PlayerPartyStore party = PlayerExtensionsKt.party(player);
                 int highestLevel = 0;
                 for (Pokemon pokemon : party) {
